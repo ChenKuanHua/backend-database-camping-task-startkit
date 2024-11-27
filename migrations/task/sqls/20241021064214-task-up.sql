@@ -42,7 +42,6 @@ select COUNT(*) from "USER";
 SELECT * FROM "USER" LIMIT 3;
 
 
-
 --  ████████  █████   █    ████  
 --    █ █   ██    █  █         █ 
 --    █ █████ ███ ███       ███  
