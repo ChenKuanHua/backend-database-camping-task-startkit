@@ -24,11 +24,11 @@ INSERT INTO "USER" (name, email, role) VALUES
 
 -- 1-2 修改：用 Email 找到 李燕容、肌肉棒子、Q太郎，如果他的 Role 為 USER 將他的 Role 改為 COACH
 UPDATE "USER"
-set role = 'COACH'
-where email in (
-(select email from "USER" where name = '李燕容'),
-(select email from "USER" where name = '肌肉棒子'),
-(select email from "USER" where name = 'Q太郎')
+SET role = 'COACH'
+WHERE email IN (
+(SELECT email FROM "USER" WHERE name = '李燕容'),
+(SELECT email FROM "USER" WHERE name = '肌肉棒子'),
+(SELECT email FROM "USER" WHERE name = 'Q太郎')
 );
 
 -- 1-3 刪除：刪除USER 資料表中，用 Email 找到透明人，並刪除該筆資料
@@ -136,14 +136,12 @@ VALUES ((SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE nam
 UPDATE "COACH"
 SET experience_years = 3
 WHERE user_id = (
-  	SELECT user_id FROM "USER" WHERE name = '肌肉棒子');  
+  	SELECT id FROM "USER" WHERE name = '肌肉棒子');  
 
 UPDATE "COACH" 
 SET experience_years = 5
 WHERE user_id = (
-    SELECT id 
-    FROM "USER" 
-    WHERE name = 'Q太郎');
+    SELECT id  FROM "USER" WHERE name = 'Q太郎');
 
 -- 3-4 刪除：新增一個專長 空中瑜伽 至 SKILL 資料表，之後刪除此專長。
 insert into "SKILL" (name) values ('空中瑜伽');
@@ -213,6 +211,7 @@ INSERT INTO "COURSE_BOOKING" (user_id, course_id, booking_at, status) VALUES
 -- 5-2. 修改：`王小明`取消預約 `李燕容` 的課程，請在`COURSE_BOOKING`更新該筆預約資料：
     -- 1. 取消預約時間`cancelled_at` 設為2024-11-24 17:00:00
     -- 2. 狀態`status` 設定為課程已取消
+
 UPDATE "COURSE_BOOKING" 
 SET cancelled_at = '2024-11-24 17:00:00',
 	status = '課程已取消'
@@ -332,8 +331,10 @@ INNER JOIN  "SKILL" ON  "SKILL".id = "COACH_LINK_SKILL".skill_id
 GROUP BY "SKILL".name
 ORDER BY coach_total DESC 
 LIMIT 1;
+
 -- 6-3. 查詢：計算 11 月份組合包方案的銷售數量
 -- 顯示須包含以下欄位： 組合包方案名稱, 銷售數量
+
 SELECT "CREDIT_PACKAGE".name AS 組合包方案名稱, sum("CREDIT_PURCHASE".purchased_credits) AS 銷售數量
 FROM "CREDIT_PURCHASE"
 INNER JOIN "CREDIT_PACKAGE" ON "CREDIT_PACKAGE".id = "CREDIT_PURCHASE".credit_package_id
