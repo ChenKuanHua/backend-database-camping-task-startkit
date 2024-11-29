@@ -164,8 +164,9 @@ delete from "SKILL" where name = '空中瑜伽';
     -- 6. 最大授課人數`max_participants` 設定為10
     -- 7. 授課連結設定`meeting_url`為 https://test-meeting.test.io
 
-INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participants, meeting_url) values
-((select id from "USER" where email = 'lee2000@hexschooltest.io'),
+INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participants, meeting_url) VALUES
+(
+  (select id from "USER" where email = 'lee2000@hexschooltest.io'),
   (select id from "SKILL" where name = '重訓'),
   '重訓基礎課',
   '2024-11-25 14:00:00',
@@ -204,13 +205,11 @@ INSERT INTO "COURSE_BOOKING" (user_id, course_id, booking_at, status) VALUES
  (SELECT id FROM "COURSE" WHERE user_id = (SELECT id FROM "USER" WHERE name ='李燕容')),
  '2024-11-24 16:00:00',
  '即將授課'
-)
-
-
+);
 
 -- 5-2. 修改：`王小明`取消預約 `李燕容` 的課程，請在`COURSE_BOOKING`更新該筆預約資料：
-    -- 1. 取消預約時間`cancelled_at` 設為2024-11-24 17:00:00
-    -- 2. 狀態`status` 設定為課程已取消
+-- 1. 取消預約時間`cancelled_at` 設為2024-11-24 17:00:00
+-- 2. 狀態`status` 設定為課程已取消
 
 UPDATE "COURSE_BOOKING" 
 SET cancelled_at = '2024-11-24 17:00:00',
@@ -219,9 +218,10 @@ WHERE user_id  = (SELECT id FROM "USER" WHERE name = '王小明');
 
 
 -- 5-3. 新增：`王小明`再次預約 `李燕容`   的課程，請在`COURSE_BOOKING`新增一筆資料：
-    -- 1. 預約人設為`王小明`
-    -- 2. 預約時間`booking_at` 設為2024-11-24 17:10:25
-    -- 3. 狀態`status` 設定為即將授課
+-- 1. 預約人設為`王小明`
+-- 2. 預約時間`booking_at` 設為2024-11-24 17:10:25
+-- 3. 狀態`status` 設定為即將授課
+
 INSERT INTO "COURSE_BOOKING" (user_id,course_id,booking_at,status) VALUES
 (
 	(SELECT id FROM "USER" WHERE name = '王小明'), 
